@@ -65,7 +65,18 @@ export default function HomePage(props) {
           }
         />
         <Route path="/join" element={<RoomJoinPage />} />
-        <Route path="/create" element={<CreateRoomPage />} />
+        <Route
+          path="/create"
+          element={
+            <CreateRoomPage
+              update={false}
+              votesToSkip={2}
+              guestCanPause={true}
+              roomCode={null}
+              updateCallBack={() => {}}
+            />
+          }
+        />
         <Route
           path="/room/:roomCode"
           element={<Room ref={roomRef} removeRoomCode={removeRoomCode} />}

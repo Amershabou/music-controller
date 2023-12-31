@@ -20,7 +20,8 @@ const Room = forwardRef(({ removeRoomCode }, ref) => {
   useImperativeHandle(ref, () => ({
     removeRoomCode: handleLeaveButtonPressed,
   }));
-  useEffect(() => {
+
+  function getRoomDetails() {
     fetch("/api/get-room?code=" + roomCode)
       .then((response) => {
         if (!response.ok) {
@@ -36,6 +37,10 @@ const Room = forwardRef(({ removeRoomCode }, ref) => {
         setVotesToSkip(data.votes_to_skip);
         setIsHost(data.is_host);
       });
+  }
+
+  useEffect(() => {
+    getRoomDetails();
   }, []);
 
   function handleLeaveButtonPressed() {
@@ -58,11 +63,10 @@ const Room = forwardRef(({ removeRoomCode }, ref) => {
             votesToSkip={votesToSkip}
             guestCanPause={guestCanPause}
             roomCode={roomCode}
-            updateCallBack={() => {}}
+            updateCallBack={getRoomDetails}
           />
         </Grid>
         <Grid item xs={12} align="center">
-          {" "}
           <Button
             variant="contained"
             color="secondary"
@@ -106,12 +110,12 @@ const Room = forwardRef(({ removeRoomCode }, ref) => {
         </Grid>
         <Grid item xs={12} align="center">
           <Typography variant="h6" component="h6">
-            Can pause: {guestCanPause}
+            Can pause: {guestCanPause.toString()}
           </Typography>
         </Grid>
         <Grid item xs={12} align="center">
           <Typography variant="h6" component="h6">
-            Host: {isHost}
+            Host: {isHost.toString()}
           </Typography>
         </Grid>
         {isHost ? renderSettingsButton() : null}
